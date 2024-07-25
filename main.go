@@ -6,23 +6,18 @@ import (
 	"os"
 	"regexp"
 	"strings"
-
 	"ascii/asciiArt"
 )
 
 func main() {
 	// Defines the command-line flags
-	outputfile := flag.String("output", "", "Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard")
+	outputfile := flag.String("output", "", "Specify the output file in the format --output=<fileName.txt>")
 	flag.Parse()
 
 	// Check if the output flag is provided
 	if *outputfile != "" {
-		// Validate the output file format using regex
-		validOutput := regexp.MustCompile(`^[a-zA-Z0-9_-]+\.txt$`)
-		args := os.Args[1:]
-
-		// Check if the output flag is in the correct format
-		if len(args) < 1 || !strings.HasPrefix(args[0], "--output=") || !validOutput.MatchString(args[0]) {
+		// Validate the output flag format
+		if !isValidOutputFlag(os.Args) {
 			printUsageAndExit()
 		}
 	}
@@ -76,10 +71,23 @@ func main() {
 	}
 }
 
+func isValidOutputFlag(args []string) bool {
+	// Ensure the flag starts with "--output="
+	if len(args) < 1 || !strings.HasPrefix(args[1], "--output=") {
+		return false
+	}
+
+	// Extract the flag value
+	flagValue := args[1][len("--output="):]
+
+	// Validate the flag format using regex
+	validOutput := regexp.MustCompile(`^[a-zA-Z0-9_-]+\.txt$`)
+	return validOutput.MatchString(flagValue)
+}
+
 func printUsageAndExit() {
 	fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]")
-	fmt.Println() //print space between the usage message
-
+	fmt.Println()
 	fmt.Println("EX: go run . --output=<fileName.txt> something standard")
 	os.Exit(0)
 }
