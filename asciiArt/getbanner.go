@@ -1,36 +1,15 @@
 package asciiArt
 
-import "os"
-
-func BannerFile() string {
-	if len(os.Args) == 3 {
-		switch os.Args[2] {
+func BannerFile(banner string) string {
+		switch banner {
 		case "standard":
-			return "standard.txt"
+			return "banner/standard.txt"
 		case "shadow":
-			return "shadow.txt"
+			return "banner/shadow.txt"
 		case "thinkertoy":
-			return "thinkertoy.txt"
+			return "banner/thinkertoy.txt"
 		default:
-			return "invalid bannerfile name"
+			return ""
 		}
-	}
-	if len(os.Args) == 2 {
-		return "standard.txt"
-	}
-	// return ""
-
-	if len(os.Args) >= 4 {
-		switch os.Args[3] {
-		case "standard":
-			return "standard.txt"
-		case "shadow":
-			return "shadow.txt"
-		case "thinkertoy":
-			return "thinkertoy.txt"
-		default:
-			return "invalid bannerfile name"
-		}
-	}
-	return "invalid arguments"
+	
 }

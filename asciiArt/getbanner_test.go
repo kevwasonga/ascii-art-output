@@ -10,18 +10,18 @@ func TestBannerFile(t *testing.T) {
 		args     []string
 		expected string
 	}{
-		{[]string{"main", "standard"}, "standard.txt"},
-		{[]string{"main", "shadow"}, "standard.txt"},
-		{[]string{"main", "Hello", "standard"}, "standard.txt"},
-		{[]string{"main", "Three", "shadow"}, "shadow.txt"},
-		{[]string{"main", "Hey", "thinkertoy"}, "thinkertoy.txt"},
+		{[]string{"main", "standard"}, "banner/standard.txt"},
+		{[]string{"main", "shadow"}, "banner/standard.txt"},
+		{[]string{"main", "Hello", "standard"}, "banner/standard.txt"},
+		{[]string{"main", "Three", "shadow"}, "banner/shadow.txt"},
+		{[]string{"main", "Hey", "thinkertoy"}, "banner/thinkertoy.txt"},
 		{[]string{"main", "HELLO", "hollow"}, "invalid bannerfile name"},
 		{[]string{"main"}, ""},
 	}
 
 	for _, tt := range tests {
 		os.Args = tt.args
-		result := BannerFile()
+		result := BannerFile(tt.args[len(tt.args)-1])
 		if result != tt.expected {
 			t.Errorf("BannerFile() with args %v; got %v, want %v", tt.args, result, tt.expected)
 		}

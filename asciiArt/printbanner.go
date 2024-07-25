@@ -1,12 +1,16 @@
 package asciiArt
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"strings"
+)
 
 // Print the banner for a line of text
-func PrintLineBanner(line string, bannerMap map[int][]string) {
+func PrintLineBanner(line string, bannerMap map[int][]string) string {
 	if line == "" {
 		fmt.Println()
-		return
+		os.Exit(0)
 	}
 
 	output := make([]string, 8)
@@ -22,9 +26,6 @@ func PrintLineBanner(line string, bannerMap map[int][]string) {
 			output[i] += banner[i]
 		}
 	}
+	return strings.Join(output, "\n")
 
-	// Print the final output
-	for _, outLine := range output {
-		fmt.Println(outLine)
 	}
-}
